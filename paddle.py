@@ -3,35 +3,32 @@ from turtle import Turtle
 
 PADDLE_SHAPE = "square"
 PADDLE_COLOR = "white"
-PADDLE_SIZE = 4
+PADDLE_SIZE = 5
 PADDLE_STEP_SIZE = 15
 PADDLE_X_MARGIN = 30
-PADDLE_VERTICAL_MARGIN = PADDLE_SIZE * 20
+PADDLE_VERTICAL_MARGIN = PADDLE_SIZE * 10
 
 
-class Paddle:
+class Paddle(Turtle):
 
     def __init__(self, paddle_side):
-        self.body = []
-        for _ in range(PADDLE_SIZE):
-            self.body.append(Turtle(shape=PADDLE_SHAPE))
-            self.body[_].color(PADDLE_COLOR)
-            self.body[_].penup()
-            if paddle_side == "left":
-                self.body[_].goto(-500 + PADDLE_X_MARGIN, 0 + 20 * _)
-            elif paddle_side == "right":
-                self.body[_].goto(500 - PADDLE_X_MARGIN, 0 + 20 * _)
+        super().__init__()
+        self.color(PADDLE_COLOR)
+        self.shape(PADDLE_SHAPE)
+        self.setheading(90)
+        self.shapesize(stretch_wid=1, stretch_len=PADDLE_SIZE)
+        self.penup()
+        if paddle_side == "right":
+            self.goto(500 - PADDLE_X_MARGIN, 0)
+        elif paddle_side == "left":
+            self.goto( -500 + PADDLE_X_MARGIN, 0)
 
     def move_down(self):
-        bottom_cor = self.body[PADDLE_SIZE - 1].ycor()
-        for _ in self.body:
-            if bottom_cor > -350 + PADDLE_VERTICAL_MARGIN:
-                _.setheading(270)
-                _.forward(PADDLE_STEP_SIZE)
+        if self.ycor() > -350 + PADDLE_VERTICAL_MARGIN:
+            self.setheading(270)
+            self.forward(PADDLE_STEP_SIZE)
 
     def move_up(self):
-        top_cor = self.body[0].ycor()
-        for _ in self.body:
-            if top_cor < 350 - PADDLE_VERTICAL_MARGIN:
-                _.setheading(90)
-                _.forward(PADDLE_STEP_SIZE)
+        if self.ycor() < 350 - PADDLE_VERTICAL_MARGIN:
+            self.setheading(90)
+            self.forward(PADDLE_STEP_SIZE)
